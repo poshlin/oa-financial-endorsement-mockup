@@ -979,21 +979,25 @@
 
     /* 學者推薦占位：刻意做成虛線空框，一眼看得出是預留版位。
        🔴 絕不可填入未經本人確認的姓名、頭銜、照片或推薦語——填了就從「預留」變成「偽造背書」。 */
-    .lp .endorse { display: grid; grid-template-columns: 180px 1fr; gap: 32px; align-items: center;
-      border: 2px dashed var(--primary); border-radius: var(--r); padding: 34px; background: var(--card); margin: 0; }
-    .lp .endorse-photo { width: 180px; height: 180px; border-radius: 50%; border: 2px dashed var(--gold);
-      display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 0.92rem; }
-    .lp .endorse-quote { border-left: 4px solid var(--gold); padding: 6px 0 6px 20px;
-      color: var(--text-2); font-size: 1.05rem; line-height: 1.9; min-height: 96px; }
-    .lp .endorse-meta { margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--gold);
-      display: flex; flex-direction: column; gap: 6px; }
+    .lp .endorse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .lp .endorse { display: flex; flex-direction: column; text-align: center; margin: 0;
+      border: 2px dashed var(--primary); border-radius: var(--r); padding: 28px 24px; background: var(--card); }
+    /* 角色標籤：每一格對應一位受邀的學者，顧問可以直接指著說「這格是留給您的」 */
+    .lp .endorse-role { align-self: center; margin-bottom: 18px; padding: 4px 14px;
+      border-radius: var(--r-pill); background: rgba(78,205,196,.22); border: 2px solid var(--teal);
+      font-size: 0.82rem; font-weight: 700; white-space: nowrap; }
+    .lp .endorse-photo { flex: 0 0 auto; width: 132px; height: 132px; margin: 0 auto 20px;
+      border-radius: 50%; border: 2px dashed var(--gold);
+      display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 0.9rem; }
+    .lp .endorse-quote { flex: 1 1 auto; min-height: 108px; padding: 16px 0;
+      border-top: 1px dashed var(--gold); border-bottom: 1px dashed var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-2); font-size: 0.98rem; line-height: 1.9; }
+    .lp .endorse-meta { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
     .lp .endorse-meta b { font-weight: 800; color: var(--text-2); }
-    .lp .endorse-meta span { color: var(--text-2); font-size: 0.92rem; }
+    .lp .endorse-meta span { color: var(--text-2); font-size: 0.9rem; }
     .lp .endorse-note { margin-top: 18px; color: var(--text-2); font-size: 0.9rem; }
-    @media (max-width: 860px) {
-      .lp .endorse { grid-template-columns: 1fr; justify-items: center; }
-      .lp .endorse-quote { border-left: 0; border-top: 4px solid var(--gold); padding: 18px 0 0; }
-    }
+    @media (max-width: 900px) { .lp .endorse-grid { grid-template-columns: 1fr; } }
 
     /* 03 型態說明：一行帶過，取代四張等重卡 */
     .lp .type-line { max-width: var(--measure); margin-top: 26px; color: var(--text-2); }
@@ -2133,19 +2137,38 @@
         <div class="sec-head">
           <p class="kicker">學者推薦</p>
           <h2 class="h2">這個位置，留給您</h2>
-          <p class="lead">橘子蘋果與學界合作開發本課程的部分內容。此區規劃放置合作學者的照片、姓名職稱與一段推薦語，位置安排在課程說明之後、常見問題之前——家長讀完課程內容、正在判斷可不可信的那一刻。</p>
+          <p class="lead">橘子蘋果與學界合作開發本課程的部分內容。此區規劃放置<b>三位</b>合作學者的照片、姓名職稱與一段推薦語，位置安排在課程說明之後、常見問題之前——家長讀完課程內容、正在判斷可不可信的那一刻。</p>
         </div>
-        <figure class="reveal endorse">
-          <div class="endorse-photo">照片</div>
-          <div class="endorse-body">
+        <div class="reveal endorse-grid">
+          <figure class="endorse">
+            <span class="endorse-role">財務金融系　副教授</span>
+            <div class="endorse-photo">照片</div>
             <blockquote class="endorse-quote">推薦語（約 60–100 字）</blockquote>
             <figcaption class="endorse-meta">
               <b>姓名</b>
               <span>職稱／服務單位</span>
             </figcaption>
-          </div>
-        </figure>
-        <p class="endorse-note">＊ 本區目前為空白版位，內容待學者本人確認後填入。</p>
+          </figure>
+          <figure class="endorse">
+            <span class="endorse-role">研發長</span>
+            <div class="endorse-photo">照片</div>
+            <blockquote class="endorse-quote">推薦語（約 60–100 字）</blockquote>
+            <figcaption class="endorse-meta">
+              <b>姓名</b>
+              <span>職稱／服務單位</span>
+            </figcaption>
+          </figure>
+          <figure class="endorse">
+            <span class="endorse-role">校長</span>
+            <div class="endorse-photo">照片</div>
+            <blockquote class="endorse-quote">推薦語（約 60–100 字）</blockquote>
+            <figcaption class="endorse-meta">
+              <b>姓名</b>
+              <span>職稱／服務單位</span>
+            </figcaption>
+          </figure>
+        </div>
+        <p class="endorse-note">＊ 三格皆為空白版位，內容待各位學者本人確認後填入。</p>
       </div>
     </section>
 
