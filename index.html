@@ -934,6 +934,14 @@
     .lp .tldr { background: var(--task); border: 4px solid var(--gold); border-radius: var(--r); padding: 24px 28px; margin-top: 52px; }
     .lp .tldr strong { font-weight: 800; }
 
+    /* 產學合作聲明：與 .tldr 同一種盒子語彙，改用青色框做區辨（金框＝課程摘要、青框＝資格證明）。
+       🔴 內容全部出自 fin.ntub.edu.tw 的公開專案紀錄，不得加上任何未經查證的引申。 */
+    .lp .credit { background: var(--task); border: 4px solid var(--teal); border-radius: var(--r);
+      padding: 22px 26px; margin-top: 24px; }
+    .lp .credit b { font-weight: 800; }
+    .lp .credit .credit-src { display: block; margin-top: 10px; padding-top: 10px;
+      border-top: 1px dashed var(--teal); color: var(--text-2); font-size: 0.88rem; }
+
     /* 卡片通用 */
     .lp .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .lp .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
@@ -1505,6 +1513,20 @@
     <!-- TLDR 結論先行 -->
     <div class="wrap">
       <p class="tldr" id="tldr"><strong>「橘蘋財商素養課程」是橘子蘋果程式學苑為國小 3-6 年級孩子設計的兒童理財課，搭配專屬的「財商學習平台」練習。</strong>每週一堂 90 分鐘：前 50 分鐘雙師模式：課程影片講觀念、真人老師看著每個孩子的操作；後 40 分鐘「財商議題課」，老師帶著討論當週議題。課後平台開放，孩子在理財經營遊戲中領日薪、儲蓄生息、模擬投資、用保險面對突發風險；家長每週收到學習週報。課程共 45 堂。平台內所有金幣皆為模擬貨幣，非真實金錢，也不涉及任何真實金融交易或投資建議。</p>
+
+      <!-- 🔴 產學合作聲明。以下每一項都出自國立臺北商業大學財務金融系的公開專案紀錄：
+           https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw
+           原文：「吳威震，2025，蘋果芽青少年金融課程專案（第一階段），
+                   蘋果芽數位科技股份有限公司，計畫編號1140113173642，核定經費198,993元，已結案」
+           ⚠️ 刻意「沒有」宣稱這個專案產出了本課程——本課程是國小 3-6 年級，
+           該專案名稱寫的是「青少年」，兩者關係未經確認前不得連結。 -->
+      <p class="credit">
+        <b>橘子蘋果的金融教育課程，有大學財金系參與。</b>
+        本學苑的法人「蘋果芽數位科技股份有限公司」於 2025 年委託
+        <b>國立臺北商業大學財務金融系　吳威震　副教授</b>
+        執行「青少年金融課程專案（第一階段）」，計畫已結案。
+        <span class="credit-src">專案紀錄公開登載於國立臺北商業大學財務金融系網站（計畫編號 1140113173642）。</span>
+      </p>
     </div>
 
     <!-- 01 痛點 -->
