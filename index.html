@@ -984,6 +984,12 @@
       border: 2px solid var(--gold); border-radius: var(--r); padding: 28px 24px; background: var(--card); }
     /* 尚未確認的版位用虛線，與已確認的實線卡一眼可辨 */
     .lp .endorse.is-open { border-style: dashed; border-color: var(--primary); }
+    /* 🔴 草稿卡：內容是我方擬稿、本人尚未核可。必須一眼看得出來，
+       否則這份若被轉傳，會被誤讀成已取得的背書。 */
+    .lp .endorse.is-draft { border-style: dashed; border-color: var(--coral); }
+    .lp .endorse-draftbadge { align-self: center; margin-bottom: 16px; padding: 4px 14px;
+      border-radius: var(--r-pill); background: rgba(255,123,84,.18); border: 2px solid var(--coral);
+      color: var(--coral-ink); font-size: 0.8rem; font-weight: 800; white-space: nowrap; }
     .lp .endorse-photo { flex: 0 0 auto; width: 132px; height: 132px; margin: 0 auto 20px;
       border-radius: 50%; overflow: hidden; }
     .lp .endorse-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -2140,7 +2146,7 @@
         <div class="sec-head">
           <p class="kicker">學者推薦</p>
           <h2 class="h2">這個位置，留給您</h2>
-          <p class="lead">橘子蘋果與學界合作開發本課程的部分內容。以下兩位學者的推薦已確認，第三格留給校長。位置安排在課程說明之後、常見問題之前——家長讀完課程內容、正在判斷可不可信的那一刻。</p>
+          <p class="lead">橘子蘋果與學界合作開發本課程的部分內容。前兩位學者的推薦已確認，第三格為代擬草稿、待校長核可。位置安排在課程說明之後、常見問題之前——家長讀完課程內容、正在判斷可不可信的那一刻。</p>
         </div>
         <!-- 🔴 推薦語逐字照用學者本人提供的版本，一字未改，不得潤飾。
              照片取自各自的學校官網教師頁（保旭 2026-09-04 指示），
@@ -2168,16 +2174,24 @@
               <span>教授兼研發長<br>國立臺北商業大學　資訊與決策科學研究所</span>
             </figcaption>
           </figure>
-          <figure class="endorse is-open">
-            <div class="endorse-photo is-open">照片</div>
-            <blockquote class="endorse-quote">推薦語（約 60–100 字）</blockquote>
+          <!-- 🔴 這一格是**我方擬稿**，任校長本人尚未核可。
+               推薦語由橘子蘋果依其學術背景（行銷博士＋應用統計碩士、
+               曾任臺大管院行銷教授兼系主任）代擬，供校長參考修改。
+               核可前務必保留「草稿・待校長核可」標記，不得移除。 -->
+          <figure class="endorse is-draft">
+            <span class="endorse-draftbadge">草稿・待校長核可</span>
+            <div class="endorse-photo">
+              <img src="./assets/endorse-jen.jpg" width="264" height="264" loading="lazy" decoding="async"
+                   alt="任立中校長，國立臺北商業大學">
+            </div>
+            <blockquote class="endorse-quote">在商學教育的現場久了，會發現理財的觀念其實不必等到大學才開始。這套課程把消費、儲蓄與風險放進孩子能親手操作的情境，用他們這個年紀懂的方式，把判斷的習慣提早建立起來。讓專業知識往下扎根，是值得投入的方向。</blockquote>
             <figcaption class="endorse-meta">
-              <b>校長</b>
-              <span>姓名與職稱待確認</span>
+              <b>任立中</b>
+              <span>校長<br>國立臺北商業大學</span>
             </figcaption>
           </figure>
         </div>
-        <p class="endorse-note">＊ 第三格為空白版位，內容待學者本人確認後填入。</p>
+        <p class="endorse-note">＊ 第三格為橘子蘋果代擬之草稿，內容待任校長本人核可或修改後定案。</p>
       </div>
     </section>
 
