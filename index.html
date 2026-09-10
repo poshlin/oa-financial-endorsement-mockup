@@ -962,10 +962,12 @@
     .lp .honors-sub { text-align: center; font-size: 0.92rem; line-height: 1.9; opacity: .82; margin-top: 10px; }
     .lp .honors-people { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 26px; }
     .lp .honor { text-align: center; }
-    .lp .honor img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover;
+    /* 2026-09-10 保旭：頭像放大 76 → 96px。欄寬 228px（手機 2 欄約 137px）都放得下，
+       仍小於下方推薦卡的 132px，維持「上面是摘要、下面是內容」的層級。 */
+    .lp .honor img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
       display: block; margin: 0 auto; border: 2px solid var(--gold); }
     /* 照片未到位的暫用圈：虛線，一眼看得出是待補，不是設計 */
-    .lp .honor .honor-pending { width: 76px; height: 76px; border-radius: 50%; margin: 0 auto;
+    .lp .honor .honor-pending { width: 96px; height: 96px; border-radius: 50%; margin: 0 auto;
       border: 2px dashed rgba(255,188,87,.6); display: flex; align-items: center;
       justify-content: center; color: var(--gold); font-size: 0.72rem; line-height: 1.4; }
     .lp .honor b { display: block; margin-top: 10px; font-weight: 800; color: var(--gold); font-size: 1rem; }
@@ -975,8 +977,9 @@
        🔴 做成金色外框膠囊，不是橘色實心——橘色實心在本站是免費試聽 CTA 專用；
           這只是頁內錨點，因此也不掛 data-oa-cta。 */
     .lp .honors-act { margin-top: 26px; text-align: center; }
+    /* 2026-09-10 保旭：膠囊太高，上下內距 11 → 7px（左右維持，膠囊才不會變扁圓） */
     .lp .honors-jump { display: inline-flex; align-items: center; gap: 8px;
-      padding: 11px 24px; border: 1px solid var(--gold); border-radius: 999px;
+      padding: 7px 24px; border: 1px solid var(--gold); border-radius: 999px;
       color: var(--gold); font-weight: 800; font-size: 0.92rem;
       transition: background .2s ease; }
     .lp .honors-jump:hover, .lp .honors-jump:focus-visible { background: rgba(255,188,87,.14); }
