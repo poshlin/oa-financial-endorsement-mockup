@@ -1144,6 +1144,12 @@
                                  min-height: 44px; display: flex; align-items: center; }
     .lp details.def-more > summary::-webkit-details-marker { display: none; }
     .lp details.def-more > summary .def-t { margin: 0; }
+    /* 2026-09-10：定義框改為全寬度預設收合，展開箭頭跟著從「≤860px 才有」提升到全寬度。
+       沒有這個箭頭，桌機上收合起來會像一個只有標題的空框，看不出可以點。 */
+    .lp details.def-more > summary { position: relative; padding-right: 28px; }
+    .lp details.def-more > summary::after { content: "▸"; position: absolute; right: 2px; top: 50%;
+      transform: translateY(-50%); color: var(--primary); transition: transform .15s ease; }
+    .lp details.def-more[open] > summary::after { transform: translateY(-50%) rotate(90deg); }
     .lp .defbox b { font-weight: 800; }
     .lp .q-lead { max-width: var(--measure); margin-bottom: 18px; font-weight: 700; }
     /* 8 張卡固定 4／2／1 欄，跳過 3 欄——否則 8 張會排成 3+3+2，最後一列缺角 */
@@ -1154,6 +1160,28 @@
     .lp .q-ask { font-size: 1.02rem; font-weight: 800; line-height: 1.5; }
     /* margin-top:auto 把堂次壓到卡底——問句長短不一時，整列標籤仍對齊 */
     .lp .q-where { display: block; margin-top: auto; padding-top: 14px; font-size: 0.76rem; font-weight: 800; color: var(--coral-ink); }
+    /* 三階段分頁（僅 861px 以上啟用）。
+       2026-09-10 保旭：03 這一段桌機下實測 4832px（約 5.4 個螢幕），
+       其中三個階段佔 2745px＝57%，是唯一值得動的地方。一次只顯示一個階段後約 3127px。
+       🔴 手機刻意不用分頁：單欄下單一階段展開約 1350px，
+          反而比現行「三張收合卡」的約 450px 更長，所以窄螢幕維持既有的摺疊行為。
+       🔴 分頁鈕不用橘色實心、不掛 data-oa-cta——那是免費試聽 CTA 專用。
+       被隱藏的階段是用 hidden 屬性，內容仍完整留在 HTML 裡，Google 與 AI 搜尋照樣讀得到。 */
+    .lp .phase-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+      background: var(--cream); border: 2px solid var(--gold); border-radius: var(--r-pill);
+      padding: 6px; margin-bottom: 20px; }
+    .lp .phase-tabs[hidden] { display: none; }
+    .lp .phase-tab { font: inherit; border: 0; background: transparent; cursor: pointer;
+      border-radius: var(--r-pill); padding: 10px 8px; line-height: 1.4;
+      color: var(--text-2); font-weight: 800; transition: background .15s ease; }
+    /* 對比實測：#666 on #FFF9F0 = 5.52:1、#2D2D2D on #FFF 極高、#B84318 on #FFF 過 AA。
+       副標不加 opacity——加了會掉到 3.85:1，小字過不了 AA。 */
+    .lp .phase-tab span { display: block; margin-top: 2px; font-size: 0.76rem; font-weight: 700; }
+    .lp .phase-tab:hover { background: rgba(255,188,87,.22); }
+    .lp .phase-tab[aria-selected="true"] { background: var(--card); color: var(--text);
+      box-shadow: 0 2px 6px rgba(0,0,0,.10); }
+    .lp .phase-tab[aria-selected="true"] span { color: var(--coral-ink); }
+    .lp .phase[hidden] { display: none; }
     .lp .phases { display: grid; gap: 20px; }
     .lp .phase { background: var(--card); border: 4px solid var(--gold); border-radius: var(--r); box-shadow: var(--shadow-soft); padding: 26px 24px; }
     .lp .phase-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
@@ -1411,10 +1439,6 @@
          上內距要容得下整顆徽章（18px 突出 + 4px 餘裕）。步驟 04-06 那條列不是滑動列，不受影響。 */
       .lp .flow.swipe { padding-top: 22px; }
       .lp .swipe-hint { display: block; margin-top: 2px; font-size: 0.8rem; font-weight: 800; color: var(--coral-ink); }
-      .lp details.def-more > summary { position: relative; padding-right: 28px; }
-      .lp details.def-more > summary::after { content: "▸"; position: absolute; right: 2px; top: 50%;
-        transform: translateY(-50%); color: var(--primary); transition: transform .15s ease; }
-      .lp details.def-more[open] > summary::after { transform: translateY(-50%) rotate(90deg); }
       .lp details.phase-more { margin-top: 20px; }
       .lp details.phase-more > summary { display: block; list-style: none; cursor: pointer; font-weight: 800; padding: 15px 30px 14px 0; position: relative; border-top: 2px solid var(--gold); }
       .lp details.phase-more > summary::-webkit-details-marker { display: none; }
@@ -1721,7 +1745,7 @@
           <h2 class="h2">45 堂，從自己的零用錢一路講到全球供應鏈</h2>
           <p class="lead">三個階段像同心圓往外放大：先看懂自己口袋裡的錢，再看懂銀行、信用與投資，最後看懂國家與世界怎麼運轉。每階段 15 堂，依序解鎖。</p>
         </div>
-        <details class="reveal defbox def-more" open>
+        <details class="reveal defbox def-more">
           <summary><h3 class="def-t">什麼是「財商素養」？</h3></summary>
           <p><b>財商素養指的是理解金錢如何運作、並據以做出決定的能力。</b>它包含分辨需要與想要、看穿價格與行銷手法、認識儲蓄與利息、理解風險與保險，以及知道錢在家庭、國家與世界之間怎麼流動。財商素養教的不是怎麼賺錢，而是讓孩子在花錢、存錢與承擔後果之前，先有判斷的依據。</p>
           <p>橘子蘋果把這件事拆成 45 堂課，用<b>雙師模式</b>上：課程影片負責把觀念講清楚，真人老師全程看得到每個孩子的畫面，發現卡住會主動開啟通話。課後再用一套理財經營遊戲，讓觀念在「會發生後果」的環境裡真的練過一遍。</p>
@@ -1763,8 +1787,16 @@
         </div>
         <p class="swipe-hint">左右滑動，看你答得出幾題 →</p>
         <div class="reveal phases">
+          <!-- 三階段分頁列。預設 hidden，由下方腳本在 861px 以上才打開——
+               無 JS 時它不出現，三個階段全部照常顯示（安全降級）。
+               🔴 不用橘色實心、不掛 data-oa-cta：那兩樣是免費試聽 CTA 專用。 -->
+          <div class="phase-tabs" role="tablist" aria-label="三個階段的課表" hidden>
+            <button type="button" class="phase-tab" role="tab" id="phase-tab-1" aria-controls="phase-1" aria-selected="true" tabindex="0">第一階段<span>第 1–15 堂</span></button>
+            <button type="button" class="phase-tab" role="tab" id="phase-tab-2" aria-controls="phase-2" aria-selected="false" tabindex="-1">第二階段<span>第 16–30 堂</span></button>
+            <button type="button" class="phase-tab" role="tab" id="phase-tab-3" aria-controls="phase-3" aria-selected="false" tabindex="-1">第三階段<span>第 31–45 堂</span></button>
+          </div>
 
-          <article class="phase">
+          <article class="phase" id="phase-1" role="tabpanel" aria-labelledby="phase-tab-1">
             <div class="phase-head">
               <span class="phase-badge">第一階段・無基礎可上</span>
               <span class="phase-range">第 1–15 堂</span>
@@ -1808,7 +1840,7 @@
             </details>
           </article>
 
-          <article class="phase">
+          <article class="phase" id="phase-2" role="tabpanel" aria-labelledby="phase-tab-2">
             <div class="phase-head">
               <span class="phase-badge">第二階段・需修畢第一階段</span>
               <span class="phase-range">第 16–30 堂</span>
@@ -1852,7 +1884,7 @@
             </details>
           </article>
 
-          <article class="phase">
+          <article class="phase" id="phase-3" role="tabpanel" aria-labelledby="phase-tab-3">
             <div class="phase-head">
               <span class="phase-badge">第三階段・需修畢第二階段</span>
               <span class="phase-range">第 31–45 堂</span>
@@ -1913,16 +1945,56 @@
     </section>
     <script>
       /* 階段卡預設 open（無 JS 時全部展開＝安全降級），窄螢幕才收合，縮短手機頁長。
-         就地執行於區塊之後，避免先展開再收合的閃動。 */
+         就地執行於區塊之後，避免先展開再收合的閃動。
+         2026-09-10：定義框 def-more 已改為預設收合（保旭指示，理由同 FAQ），
+         從這裡的選擇器移除，否則桌機會被這段強制打開。 */
       (function () {
         var root = document.querySelector('.lp-financial');
         if (!root) return;
         var mq = window.matchMedia && window.matchMedia('(max-width: 860px)');
         if (!mq) return;
-        var list = root.querySelectorAll('#syllabus details.phase-more, #syllabus details.def-more');
+        var list = root.querySelectorAll('#syllabus details.phase-more');
         function apply() { for (var i = 0; i < list.length; i++) list[i].open = !mq.matches; }
         apply();
         if (mq.addEventListener) mq.addEventListener('change', apply);
+      })();
+
+      /* 三階段分頁：861px 以上才啟用，窄螢幕維持三張摺疊卡（理由見 .phase-tabs 的 CSS 註解）。
+         分頁列在 HTML 裡預設 hidden，無 JS 時不出現、三個階段全部照常顯示。
+         隱藏用 hidden 屬性而非移除節點，內容仍在 HTML 裡供 Google 與 AI 讀取。 */
+      (function () {
+        var root = document.querySelector('.lp-financial');
+        if (!root) return;
+        var tabs = root.querySelector('#syllabus .phase-tabs');
+        var btns = root.querySelectorAll('#syllabus .phase-tab');
+        var panels = root.querySelectorAll('#syllabus .phase');
+        if (!tabs || btns.length !== 3 || panels.length !== 3) return;
+        var mq = window.matchMedia && window.matchMedia('(min-width: 861px)');
+        if (!mq) return;
+        var active = 0;
+        function paint() {
+          var on = mq.matches;
+          tabs.hidden = !on;
+          for (var i = 0; i < panels.length; i++) panels[i].hidden = on && i !== active;
+          for (var j = 0; j < btns.length; j++) {
+            var sel = (j === active);
+            btns[j].setAttribute('aria-selected', sel ? 'true' : 'false');
+            btns[j].tabIndex = sel ? 0 : -1;
+          }
+        }
+        for (var k = 0; k < btns.length; k++) (function (i) {
+          btns[i].addEventListener('click', function () { active = i; paint(); });
+          btns[i].addEventListener('keydown', function (e) {
+            var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+            if (!d) return;
+            e.preventDefault();
+            active = (i + d + btns.length) % btns.length;
+            paint();
+            btns[active].focus();
+          });
+        })(k);
+        paint();
+        if (mq.addEventListener) mq.addEventListener('change', paint);
       })();
     </script>
 
