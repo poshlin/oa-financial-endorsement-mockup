@@ -1016,41 +1016,48 @@
     .lp .draft-notice b { font-weight: 800; }
     .lp .draft-notice span { opacity: .8; }
 
-    /* 學者推薦占位：刻意做成虛線空框，一眼看得出是預留版位。
-       🔴 絕不可填入未經本人確認的姓名、頭銜、照片或推薦語——填了就從「預留」變成「偽造背書」。 */
-    /* 2026-09-10 四位之後改 2×2：1080px 切四欄每欄只剩 240px，90 字引文會變成細長一條很難讀。
-       兩欄約 520px，一行約 34 字。同列兩張卡由 grid 自動等高，
-       引文區 flex:1＋垂直置中，短的那格文字會置中、不會看起來壞掉。 */
-    .lp .endorse-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .lp .endorse { display: flex; flex-direction: column; text-align: center; margin: 0;
-      border: 2px solid var(--gold); border-radius: var(--r); padding: 28px 24px; background: var(--card); }
-    /* 尚未確認的版位用虛線，與已確認的實線卡一眼可辨 */
-    .lp .endorse.is-open { border-style: dashed; border-color: var(--primary); }
+    /* 學者推薦：一人一列的橫式排法（2026-09-10 由 2×2 卡片格改成這個）
+       換掉的原因：四段推薦語 84 / 90 / 101 / 222 字，長度差近三倍。
+       只要維持等寬格子，短的那格就一定會被撐出一大塊空白，看起來像壞掉。
+       改成滿版橫列後，每一列各自獨立、由自己的文字決定高度，
+       「長度不一」這件事就不會被拿來互相比較，222 字全寬之後也只有四行。
+       附帶效果：卡片格是行銷語彙，橫排引言是推薦信／報導語彙，後者對可信度有利；
+       而且四段長度整齊劃一反而會讓人覺得是同一個人寫的，長短天差地遠才像四個真人。
+       🔴 不做輪播：家長一次只看到一位，「有四位」這個最強的信任訊號會被拆掉，
+          而且多數人不會滑，等於另外三位白拿。
+       🔴 不做預設收合：只有黃院長那段需要展開，四格行為不一致反而更怪，
+          也等於把最有份量的一段蓋起來。 */
+    .lp .endorse-list { display: flex; flex-direction: column; gap: 20px; }
+    /* grid-template-areas：照片跨兩列、引文與署名各佔一列。
+       用 areas 而不是包一層 div，是因為 <figcaption> 依規範必須是 <figure> 的直接子元素。 */
+    .lp .endorse { display: grid; grid-template-columns: 132px 1fr;
+      grid-template-areas: "photo quote" "photo meta"; grid-template-rows: auto 1fr;
+      column-gap: 30px; margin: 0; border: 2px solid var(--gold); border-radius: var(--r);
+      padding: 30px 32px; background: var(--card); }
     /* 草稿卡：內容是我方擬稿、本人尚未核可時才掛這個 class。
-       2026-09-10 任校長已核可，卡片上的 is-draft 已移除，目前全頁沒有任何一格在用。
+       2026-09-10 任校長已核可，目前全頁沒有任何一格在用。
        規則保留下來，是為了「下一位還沒核可的推薦人」可以直接複用。
        🔴 任何未經本人確認的推薦語，必須掛 is-draft，不得以實線卡呈現。 */
     .lp .endorse.is-draft { border-style: dashed; border-color: var(--coral); }
-    .lp .endorse-photo { flex: 0 0 auto; width: 132px; height: 132px; margin: 0 auto 20px;
-      border-radius: 50%; overflow: hidden; }
+    .lp .endorse-photo { grid-area: photo; align-self: start; width: 132px; height: 132px;
+      margin: 0; border-radius: 50%; overflow: hidden; }
     .lp .endorse-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .lp .endorse-photo.is-open { border: 2px dashed var(--gold);
-      display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 0.9rem; }
-    /* 引文靠左：90 字以上置中會很難讀；卡片其餘元素維持置中。
-       flex-direction column 是為了讓多段落的推薦語（黃院長那段有三段）能分段呈現，
-       又不失去「整塊在卡片內垂直置中」的行為。🔴 分段是照原文分，不是我們斷的。 */
-    .lp .endorse-quote { flex: 1 1 auto; min-height: 108px; padding: 18px 0; text-align: left;
-      border-top: 1px dashed var(--gold); border-bottom: 1px dashed var(--gold);
-      display: flex; flex-direction: column; justify-content: center; gap: 12px;
-      color: var(--text); font-size: 0.95rem; line-height: 1.95; }
+    /* 🔴 分段是照學者原文分的，不是我們斷的 */
+    .lp .endorse-quote { grid-area: quote; margin: 0; display: flex; flex-direction: column; gap: 14px;
+      color: var(--text); font-size: 1rem; line-height: 1.95; }
     .lp .endorse-quote p { margin: 0; }
-    .lp .endorse.is-open .endorse-quote { color: var(--text-2); text-align: center; }
-    .lp .endorse-meta { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
-    .lp .endorse-meta b { font-weight: 800; font-size: 1.02rem; }
-    .lp .endorse.is-open .endorse-meta b { color: var(--text-2); }
-    .lp .endorse-meta span { color: var(--text-2); font-size: 0.88rem; line-height: 1.6; }
-    .lp .endorse-note { margin-top: 18px; color: var(--text-2); font-size: 0.9rem; }
-    @media (max-width: 900px) { .lp .endorse-grid { grid-template-columns: 1fr; } }
+    /* 署名：一行帶過，與引文之間用金色虛線分隔，像推薦信的落款 */
+    .lp .endorse-meta { grid-area: meta; align-self: end; margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--gold);
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+    .lp .endorse-meta b { font-weight: 800; font-size: 1.05rem; }
+    .lp .endorse-meta span { color: var(--text-2); font-size: 0.9rem; line-height: 1.7; }
+    @media (max-width: 700px) {
+      .lp .endorse { grid-template-columns: 1fr; grid-template-areas: "photo" "quote" "meta";
+        grid-template-rows: auto; row-gap: 20px; padding: 26px 22px; }
+      .lp .endorse-photo { margin: 0 auto; }
+      .lp .endorse-quote { margin-top: 0; }
+      .lp .endorse-meta { margin-top: 0; justify-content: center; text-align: center; }
+    }
 
     /* 03 型態說明：一行帶過，取代四張等重卡 */
     .lp .type-line { max-width: var(--measure); margin-top: 26px; color: var(--text-2); }
@@ -2231,7 +2238,7 @@
              排序依職級：校長 → 院長 → 研發長 → 副教授。
              ⚠️ 黃啟瑞是國立臺北大學，其餘三位是國立臺北商業大學，兩校不同，
                 任何文案不得把四位一起寫成同一所學校。 -->
-        <div class="reveal endorse-grid">
+        <div class="reveal endorse-list">
           <figure class="endorse">
             <div class="endorse-photo">
               <img src="./assets/endorse-jen.jpg" width="264" height="264" loading="lazy" decoding="async"
@@ -2242,7 +2249,7 @@
             </blockquote>
             <figcaption class="endorse-meta">
               <b>任立中</b>
-              <span>校長<br>國立臺北商業大學</span>
+              <span>校長・國立臺北商業大學</span>
             </figcaption>
           </figure>
           <figure class="endorse">
@@ -2257,7 +2264,7 @@
             </blockquote>
             <figcaption class="endorse-meta">
               <b>黃啟瑞</b>
-              <span>教授兼商學院院長<br>國立臺北大學<br>金融與合作經營學系</span>
+              <span>教授兼商學院院長・國立臺北大學　金融與合作經營學系</span>
             </figcaption>
           </figure>
           <figure class="endorse">
@@ -2270,7 +2277,7 @@
             </blockquote>
             <figcaption class="endorse-meta">
               <b>廖文華</b>
-              <span>教授兼研發長<br>國立臺北商業大學<br>資訊與決策科學研究所</span>
+              <span>教授兼研發長・國立臺北商業大學　資訊與決策科學研究所</span>
             </figcaption>
           </figure>
           <figure class="endorse">
@@ -2283,7 +2290,7 @@
             </blockquote>
             <figcaption class="endorse-meta">
               <b>吳威震</b>
-              <span>副教授<br>國立臺北商業大學<br>財務金融系</span>
+              <span>副教授・國立臺北商業大學　財務金融系</span>
             </figcaption>
           </figure>
         </div>
