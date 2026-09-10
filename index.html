@@ -934,13 +934,52 @@
     .lp .tldr { background: var(--task); border: 4px solid var(--gold); border-radius: var(--r); padding: 24px 28px; margin-top: 52px; }
     .lp .tldr strong { font-weight: 800; }
 
-    /* 產學合作聲明：與 .tldr 同一種盒子語彙，改用青色框做區辨（金框＝課程摘要、青框＝資格證明）。
-       🔴 內容全部出自 fin.ntub.edu.tw 的公開專案紀錄，不得加上任何未經查證的引申。 */
-    .lp .credit { background: var(--task); border: 4px solid var(--teal); border-radius: var(--r);
-      padding: 22px 26px; margin-top: 24px; }
-    .lp .credit b { font-weight: 800; }
-    .lp .credit .credit-src { display: block; margin-top: 10px; padding-top: 10px;
-      border-top: 1px dashed var(--teal); color: var(--text-2); font-size: 0.88rem; }
+    /* 榮譽榜：產學合作 × 學者具名推薦
+       2026-09-10 取代原本的青綠色 .credit 框。換掉的原因不是顏色，是內容：
+       它跟上面的金框 TLDR 是連著兩塊大文字，家長眼睛沒有落點；青綠又是全頁唯一的冷色，
+       視覺上說「這裡有重點」，結果內容是一長段字，視覺承諾與內容不符，讀起來就累。
+       改成深底燙金＋四張真人臉：全頁唯一的深色塊，色彩反差最大，最接近「獎項」的語彙。
+       🔴 刻意不用北商大校徽或系徽。校徽會被家長讀成「學校認證這門課」，但事實是
+          「四位學者以個人身份具名推薦」＋「一件已結案的產學合作專案」，主體不同。
+          校名以文字陳述是事實陳述，沒有問題；使用機構標識不行。
+       🔴 慶祝感只用獎狀語彙（雙線框、細金線夾標題、金色姓名），
+          不得加彩帶、紙屑、漸層光暈或彩色 emoji。
+       對比實測：#FFBC57 on #2D2D2D = 8.17:1、#FFF9F0 on #2D2D2D = 13.1:1，皆遠超 AA。 */
+    .lp .honors { position: relative; background: var(--text); color: var(--cream);
+      border: 2px solid var(--gold); border-radius: var(--r);
+      padding: 30px 34px 24px; margin-top: 26px; }
+    /* 獎狀的雙線框：外粗內細、中間留 8px */
+    .lp .honors::before { content: ''; position: absolute; inset: 8px; pointer-events: none;
+      border: 1px solid rgba(255,188,87,.34); border-radius: 10px; }
+    .lp .honors > * { position: relative; }
+    /* 兩側細金線夾住小標＝儀式感的來源，取代 emoji */
+    .lp .honors-kicker { display: flex; align-items: center; gap: 14px; color: var(--gold);
+      font-size: 0.82rem; font-weight: 800; letter-spacing: .12em; }
+    .lp .honors-kicker::before, .lp .honors-kicker::after {
+      content: ''; flex: 1 1 auto; height: 1px; background: rgba(255,188,87,.45); }
+    .lp .honors-title { text-align: center; font-size: clamp(20px, 2.7vw, 27px);
+      font-weight: 800; line-height: 1.5; margin-top: 14px; }
+    .lp .honors-sub { text-align: center; font-size: 0.92rem; line-height: 1.9; opacity: .82; margin-top: 10px; }
+    .lp .honors-people { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 26px; }
+    .lp .honor { text-align: center; }
+    .lp .honor img { width: 76px; height: 76px; border-radius: 50%; object-fit: cover;
+      display: block; margin: 0 auto; border: 2px solid var(--gold); }
+    /* 照片未到位的暫用圈：虛線，一眼看得出是待補，不是設計 */
+    .lp .honor .honor-pending { width: 76px; height: 76px; border-radius: 50%; margin: 0 auto;
+      border: 2px dashed rgba(255,188,87,.6); display: flex; align-items: center;
+      justify-content: center; color: var(--gold); font-size: 0.72rem; line-height: 1.4; }
+    .lp .honor b { display: block; margin-top: 10px; font-weight: 800; color: var(--gold); font-size: 1rem; }
+    .lp .honor span { display: block; margin-top: 3px; font-size: 0.8rem; line-height: 1.6; opacity: .82; }
+    .lp .honors-foot { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline;
+      justify-content: space-between; margin-top: 26px; padding-top: 16px;
+      border-top: 1px solid rgba(255,188,87,.28); }
+    .lp .honors-src { flex: 1 1 420px; font-size: 0.82rem; line-height: 1.8; opacity: .78; }
+    .lp .honors-src a { color: var(--gold); }
+    .lp .honors-jump { flex: 0 0 auto; color: var(--gold); font-weight: 800; font-size: 0.88rem; white-space: nowrap; }
+    @media (max-width: 760px) {
+      .lp .honors { padding: 26px 22px 20px; }
+      .lp .honors-people { grid-template-columns: repeat(2, 1fr); gap: 24px 12px; }
+    }
 
     /* 卡片通用 */
     .lp .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -979,27 +1018,33 @@
 
     /* 學者推薦占位：刻意做成虛線空框，一眼看得出是預留版位。
        🔴 絕不可填入未經本人確認的姓名、頭銜、照片或推薦語——填了就從「預留」變成「偽造背書」。 */
-    .lp .endorse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    /* 2026-09-10 四位之後改 2×2：1080px 切四欄每欄只剩 240px，90 字引文會變成細長一條很難讀。
+       兩欄約 520px，一行約 34 字。同列兩張卡由 grid 自動等高，
+       引文區 flex:1＋垂直置中，短的那格文字會置中、不會看起來壞掉。 */
+    .lp .endorse-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .lp .endorse { display: flex; flex-direction: column; text-align: center; margin: 0;
       border: 2px solid var(--gold); border-radius: var(--r); padding: 28px 24px; background: var(--card); }
     /* 尚未確認的版位用虛線，與已確認的實線卡一眼可辨 */
     .lp .endorse.is-open { border-style: dashed; border-color: var(--primary); }
-    /* 草稿卡：內容是我方擬稿、本人尚未核可。
-       2026-09-09 保旭指示拿掉卡片上的「草稿・待校長核可」標籤（送審時由信件說明即可）。
-       保留珊瑚色虛線邊框與區塊下方註記，仍能與已確認的兩格區分。
-       🔴 核可後才可改為實線；若校長有修改，以他的版本為準、一字不改。 */
+    /* 草稿卡：內容是我方擬稿、本人尚未核可時才掛這個 class。
+       2026-09-10 任校長已核可，卡片上的 is-draft 已移除，目前全頁沒有任何一格在用。
+       規則保留下來，是為了「下一位還沒核可的推薦人」可以直接複用。
+       🔴 任何未經本人確認的推薦語，必須掛 is-draft，不得以實線卡呈現。 */
     .lp .endorse.is-draft { border-style: dashed; border-color: var(--coral); }
     .lp .endorse-photo { flex: 0 0 auto; width: 132px; height: 132px; margin: 0 auto 20px;
       border-radius: 50%; overflow: hidden; }
     .lp .endorse-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .lp .endorse-photo.is-open { border: 2px dashed var(--gold);
       display: flex; align-items: center; justify-content: center; color: var(--text-2); font-size: 0.9rem; }
-    /* 引文靠左：90 字以上置中會很難讀；卡片其餘元素維持置中 */
+    /* 引文靠左：90 字以上置中會很難讀；卡片其餘元素維持置中。
+       flex-direction column 是為了讓多段落的推薦語（黃院長那段有三段）能分段呈現，
+       又不失去「整塊在卡片內垂直置中」的行為。🔴 分段是照原文分，不是我們斷的。 */
     .lp .endorse-quote { flex: 1 1 auto; min-height: 108px; padding: 18px 0; text-align: left;
       border-top: 1px dashed var(--gold); border-bottom: 1px dashed var(--gold);
-      display: flex; align-items: center;
+      display: flex; flex-direction: column; justify-content: center; gap: 12px;
       color: var(--text); font-size: 0.95rem; line-height: 1.95; }
-    .lp .endorse.is-open .endorse-quote { color: var(--text-2); text-align: center; justify-content: center; }
+    .lp .endorse-quote p { margin: 0; }
+    .lp .endorse.is-open .endorse-quote { color: var(--text-2); text-align: center; }
     .lp .endorse-meta { margin-top: 16px; display: flex; flex-direction: column; gap: 4px; }
     .lp .endorse-meta b { font-weight: 800; font-size: 1.02rem; }
     .lp .endorse.is-open .endorse-meta b { color: var(--text-2); }
@@ -1526,18 +1571,52 @@
     <div class="wrap">
       <p class="tldr" id="tldr"><strong>「橘蘋財商素養課程」是橘子蘋果程式學苑為國小 3-6 年級孩子設計的兒童理財課，搭配專屬的「財商學習平台」練習。</strong>每週一堂 90 分鐘：前 50 分鐘雙師模式：課程影片講觀念、真人老師看著每個孩子的操作；後 40 分鐘「財商議題課」，老師帶著討論當週議題。課後平台開放，孩子在理財經營遊戲中領日薪、儲蓄生息、模擬投資、用保險面對突發風險；家長每週收到學習週報。課程共 45 堂。平台內所有金幣皆為模擬貨幣，非真實金錢，也不涉及任何真實金融交易或投資建議。</p>
 
-      <!-- 🔴 產學合作聲明。以下每一項都出自國立臺北商業大學財務金融系的公開專案紀錄：
-           https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw
-           原文：「吳威震，2025，蘋果芽青少年金融課程專案（第一階段），
-                   蘋果芽數位科技股份有限公司，計畫編號1140113173642，核定經費198,993元，已結案」
-           ⚠️ 刻意「沒有」宣稱這個專案產出了本課程——本課程是國小 3-6 年級，
-           該專案名稱寫的是「青少年」，兩者關係未經確認前不得連結。 -->
-      <p class="credit">
-        <b>孩子的金錢觀該教什麼，我們找了大學財金系一起定。</b>
-        這門課的內容開發，橘子蘋果委託<b>國立臺北商業大學財務金融系　吳威震副教授</b>參與。
-        他專長金融科技與區塊鏈，曾任逢甲大學金融科技研究中心副主任。
-        <span class="credit-src">產學合作專案「蘋果芽青少年金融課程（第一階段）」已於 2025 年結案，委託單位為橘子蘋果程式學苑的法人蘋果芽數位科技股份有限公司。專案紀錄公開登載於 <a href="https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw" rel="noopener">臺北商業大學財務金融系網站</a>，計畫編號 1140113173642——任何人都查得到。</span>
-      </p>
+      <!-- 🔴 榮譽榜。以下每一項都可查證，逐條列出來源：
+           產學合作專案 https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw
+             原文：「吳威震，2025，蘋果芽青少年金融課程專案（第一階段），
+                     蘋果芽數位科技股份有限公司，計畫編號1140113173642，核定經費198,993元，已結案」
+           任立中　校長　國立臺北商業大學      https://pres.ntub.edu.tw/p/412-1002-33.php?Lang=zh-tw
+           黃啟瑞　教授兼商學院院長　國立臺北大學金融與合作經營學系
+                                              http://www.aacsb.ntpu.edu.tw/page.php?id=1&amp;ids=3
+           廖文華　教授兼研發長　國立臺北商業大學資訊與決策科學研究所
+           吳威震　副教授　國立臺北商業大學財務金融系
+           ⚠️ 黃啟瑞是「國立臺北大學（NTPU）」，另外三位是「國立臺北商業大學（NTUB）」，
+              兩校僅差「商業」二字但是不同法人。已逐一比對北商大財金系 21 位專任教師名單與
+              資決所名單，均無黃啟瑞其人。因此標題只能寫「兩所國立大學」，
+              🔴 絕不可寫成「四位皆北商大學者」。
+           ⚠️ 刻意「沒有」宣稱產學合作專案產出了本課程——本課程是國小 3-6 年級，
+              該專案名稱寫的是「青少年」，兩者關係未經確認前不得連結。 -->
+      <aside class="honors">
+        <p class="honors-kicker">產學合作・學者具名推薦</p>
+        <p class="honors-title">兩所國立大學，四位學者具名推薦這門課</p>
+        <p class="honors-sub">其中，國立臺北商業大學財務金融系　吳威震副教授受橘子蘋果委託，參與本課程的內容開發。</p>
+        <div class="honors-people">
+          <div class="honor">
+            <img src="./assets/endorse-jen.jpg" width="264" height="264" loading="lazy" decoding="async"
+                 alt="任立中校長，國立臺北商業大學">
+            <b>任立中</b><span>校長<br>國立臺北商業大學</span>
+          </div>
+          <div class="honor">
+            <img src="./assets/endorse-huang.jpg" width="264" height="264" loading="lazy" decoding="async"
+                 alt="黃啟瑞教授兼商學院院長，國立臺北大學金融與合作經營學系">
+            <b>黃啟瑞</b><span>教授兼商學院院長<br>國立臺北大學<br>金融與合作經營學系</span>
+          </div>
+          <div class="honor">
+            <img src="./assets/endorse-liao.jpg" width="264" height="264" loading="lazy" decoding="async"
+                 alt="廖文華教授兼研發長，國立臺北商業大學資訊與決策科學研究所">
+            <b>廖文華</b><span>教授兼研發長<br>國立臺北商業大學<br>資訊與決策科學研究所</span>
+          </div>
+          <div class="honor">
+            <img src="./assets/endorse-wu.jpg" width="264" height="264" loading="lazy" decoding="async"
+                 alt="吳威震副教授，國立臺北商業大學財務金融系">
+            <b>吳威震</b><span>副教授<br>國立臺北商業大學<br>財務金融系</span>
+          </div>
+        </div>
+        <div class="honors-foot">
+          <p class="honors-src">產學合作專案「蘋果芽青少年金融課程（第一階段）」已於 2025 年結案，委託單位為橘子蘋果程式學苑的法人蘋果芽數位科技股份有限公司，計畫編號 1140113173642，公開登載於 <a href="https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw" rel="noopener">臺北商業大學財務金融系網站</a>——任何人都查得到。</p>
+          <a class="honors-jump" href="#endorsement">看四位怎麼說 ↓</a>
+        </div>
+      </aside>
     </div>
 
     <!-- 01 痛點 -->
@@ -2144,22 +2223,41 @@
       <div class="wrap">
         <div class="sec-head">
           <p class="kicker">學者推薦</p>
-          <h2 class="h2">這個位置，留給您</h2>
-          <p class="lead">橘子蘋果與學界合作開發本課程的部分內容。前兩位學者的推薦已確認，第三格為代擬草稿、待校長核可。位置安排在課程說明之後、常見問題之前——家長讀完課程內容、正在判斷可不可信的那一刻。</p>
+          <h2 class="h2">四位學者，這樣看這門課</h2>
+          <p class="lead">兩所國立大學、四位學者看過課程內容後具名推薦。以下推薦語逐字照登，未經潤飾。這個區塊放在課程說明之後、常見問題之前——家長讀完課程內容、正在判斷可不可信的那一刻。</p>
         </div>
-        <!-- 🔴 推薦語逐字照用學者本人提供的版本，一字未改，不得潤飾。
-             照片取自各自的學校官網教師頁（保旭 2026-09-04 指示），
-             正式上線前建議向學校索取原始高解析檔。 -->
+        <!-- 🔴 推薦語逐字照用學者本人提供的版本，一字未改，不得潤飾、不得節錄。
+             照片取自各自的學校官網教師頁（保旭 2026-09-04 指示）。
+             排序依職級：校長 → 院長 → 研發長 → 副教授。
+             ⚠️ 黃啟瑞是國立臺北大學，其餘三位是國立臺北商業大學，兩校不同，
+                任何文案不得把四位一起寫成同一所學校。 -->
         <div class="reveal endorse-grid">
           <figure class="endorse">
             <div class="endorse-photo">
-              <img src="./assets/endorse-wu.jpg" width="264" height="264" loading="lazy" decoding="async"
-                   alt="吳威震副教授，國立臺北商業大學財務金融系">
+              <img src="./assets/endorse-jen.jpg" width="264" height="264" loading="lazy" decoding="async"
+                   alt="任立中校長，國立臺北商業大學">
             </div>
-            <blockquote class="endorse-quote">財商教育不只是教孩子認識金錢，更重要的是培養選擇與判斷能力。這套課程將專業財金知識融入生活情境與遊戲任務，讓孩子在實作中理解消費、儲蓄、投資與風險，值得家長為孩子提早布局財商素養。</blockquote>
+            <blockquote class="endorse-quote">
+              <p>在商學教育的現場久了，會發現理財的觀念其實不必等到大學才開始。這套課程把消費、儲蓄與風險放進孩子能親手操作的情境，用他們這個年紀懂的方式，把判斷的習慣提早建立起來。讓專業知識往下扎根，是值得投入的方向。</p>
+            </blockquote>
             <figcaption class="endorse-meta">
-              <b>吳威震</b>
-              <span>副教授<br>國立臺北商業大學　財務金融系</span>
+              <b>任立中</b>
+              <span>校長<br>國立臺北商業大學</span>
+            </figcaption>
+          </figure>
+          <figure class="endorse">
+            <div class="endorse-photo">
+              <img src="./assets/endorse-huang.jpg" width="264" height="264" loading="lazy" decoding="async"
+                   alt="黃啟瑞教授兼商學院院長，國立臺北大學金融與合作經營學系">
+            </div>
+            <blockquote class="endorse-quote">
+              <p>在快速變動的數位時代，財商素養已不只是大人的必修課，更應該從小扎根。</p>
+              <p>真正的財商教育是培養他們面對金錢時，懂得思考、選擇與承擔結果的能力。從分辨「需要」與「想要」，到理解儲蓄、信用、保險、投資與風險，每一次生活中的選擇，都是建立財務素養的重要機會。</p>
+              <p>非常認同透過生活情境、互動課程與模擬平台，讓孩子在安全的環境中親自做決定、從經驗中學習。好的財商教育，最珍貴的不是讓孩子記住多少金融知識，而是幫助他們建立正確的價值觀與判斷力，為未來的人生做好準備。</p>
+            </blockquote>
+            <figcaption class="endorse-meta">
+              <b>黃啟瑞</b>
+              <span>教授兼商學院院長<br>國立臺北大學<br>金融與合作經營學系</span>
             </figcaption>
           </figure>
           <figure class="endorse">
@@ -2167,29 +2265,28 @@
               <img src="./assets/endorse-liao.jpg" width="264" height="264" loading="lazy" decoding="async"
                    alt="廖文華教授兼研發長，國立臺北商業大學資訊與決策科學研究所">
             </div>
-            <blockquote class="endorse-quote">身為學校研發長，我樂見產學合作將專業財金知識轉化為孩子易懂、好玩的學習內容。透過情境、任務與遊戲化設計，讓學生在實作中建立理財觀念與風險意識，是值得推廣的財商教育課程。</blockquote>
+            <blockquote class="endorse-quote">
+              <p>身為學校研發長，我樂見產學合作將專業財金知識轉化為孩子易懂、好玩的學習內容。透過情境、任務與遊戲化設計，讓學生在實作中建立理財觀念與風險意識，是值得推廣的財商教育課程。</p>
+            </blockquote>
             <figcaption class="endorse-meta">
               <b>廖文華</b>
-              <span>教授兼研發長<br>國立臺北商業大學　資訊與決策科學研究所</span>
+              <span>教授兼研發長<br>國立臺北商業大學<br>資訊與決策科學研究所</span>
             </figcaption>
           </figure>
-          <!-- 🔴 這一格是**我方擬稿**，任校長本人尚未核可。
-               推薦語由橘子蘋果依其學術背景（行銷博士＋應用統計碩士、
-               曾任臺大管院行銷教授兼系主任）代擬，供校長參考修改。
-               核可前務必保留「草稿・待校長核可」標記，不得移除。 -->
-          <figure class="endorse is-draft">
+          <figure class="endorse">
             <div class="endorse-photo">
-              <img src="./assets/endorse-jen.jpg" width="264" height="264" loading="lazy" decoding="async"
-                   alt="任立中校長，國立臺北商業大學">
+              <img src="./assets/endorse-wu.jpg" width="264" height="264" loading="lazy" decoding="async"
+                   alt="吳威震副教授，國立臺北商業大學財務金融系">
             </div>
-            <blockquote class="endorse-quote">在商學教育的現場久了，會發現理財的觀念其實不必等到大學才開始。這套課程把消費、儲蓄與風險放進孩子能親手操作的情境，用他們這個年紀懂的方式，把判斷的習慣提早建立起來。讓專業知識往下扎根，是值得投入的方向。</blockquote>
+            <blockquote class="endorse-quote">
+              <p>財商教育不只是教孩子認識金錢，更重要的是培養選擇與判斷能力。這套課程將專業財金知識融入生活情境與遊戲任務，讓孩子在實作中理解消費、儲蓄、投資與風險，值得家長為孩子提早布局財商素養。</p>
+            </blockquote>
             <figcaption class="endorse-meta">
-              <b>任立中</b>
-              <span>校長<br>國立臺北商業大學</span>
+              <b>吳威震</b>
+              <span>副教授<br>國立臺北商業大學<br>財務金融系</span>
             </figcaption>
           </figure>
         </div>
-        <p class="endorse-note">＊ 第三格為橘子蘋果代擬之草稿，內容待任校長本人核可或修改後定案。</p>
       </div>
     </section>
 
