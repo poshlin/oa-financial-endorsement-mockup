@@ -970,12 +970,26 @@
       justify-content: center; color: var(--gold); font-size: 0.72rem; line-height: 1.4; }
     .lp .honor b { display: block; margin-top: 10px; font-weight: 800; color: var(--gold); font-size: 1rem; }
     .lp .honor span { display: block; margin-top: 3px; font-size: 0.8rem; line-height: 1.6; opacity: .82; }
-    .lp .honors-foot { display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline;
-      justify-content: space-between; margin-top: 26px; padding-top: 16px;
-      border-top: 1px solid rgba(255,188,87,.28); }
-    .lp .honors-src { flex: 1 1 420px; font-size: 0.82rem; line-height: 1.8; opacity: .78; }
+    /* 錨點連結：置中放在四張臉正下方（保旭 2026-09-10）。
+       原本擠在出處小字右側，它的基線對不上兩行小字，也把小字擠出不自然的斷行。
+       🔴 做成金色外框膠囊，不是橘色實心——橘色實心在本站是免費試聽 CTA 專用；
+          這只是頁內錨點，因此也不掛 data-oa-cta。 */
+    .lp .honors-act { margin-top: 26px; text-align: center; }
+    .lp .honors-jump { display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px; border: 1px solid var(--gold); border-radius: 999px;
+      color: var(--gold); font-weight: 800; font-size: 0.92rem;
+      transition: background .2s ease; }
+    .lp .honors-jump:hover, .lp .honors-jump:focus-visible { background: rgba(255,188,87,.14); }
+    /* 出處小字：維持滿版（--measure: none 紅線，不設行長上限），
+       改用 text-wrap: balance 讓兩行長度自動接近，不靠限寬解決；
+       另用 .nb 綁住三段不該被拆開的專有名詞：法人全名、計畫編號＋數字、系網站名。
+       這三段最長 13 字（約 170px），手機 375px 下仍放得進去，不會撐破版面。 */
+    .lp .honors-src { margin-top: 24px; padding-top: 18px;
+      border-top: 1px solid rgba(255,188,87,.28);
+      text-align: center; text-wrap: balance;
+      font-size: 0.82rem; line-height: 1.9; opacity: .78; }
     .lp .honors-src a { color: var(--gold); }
-    .lp .honors-jump { flex: 0 0 auto; color: var(--gold); font-weight: 800; font-size: 0.88rem; white-space: nowrap; }
+    .lp .honors .nb { white-space: nowrap; }
     @media (max-width: 760px) {
       .lp .honors { padding: 26px 22px 20px; }
       .lp .honors-people { grid-template-columns: repeat(2, 1fr); gap: 24px 12px; }
@@ -1596,7 +1610,7 @@
       <aside class="honors">
         <p class="honors-kicker">產學合作・學者具名推薦</p>
         <p class="honors-title">兩所國立大學，四位學者具名推薦這門課</p>
-        <p class="honors-sub">其中，國立臺北商業大學財務金融系　吳威震副教授受橘子蘋果委託，參與本課程的內容開發。</p>
+        <p class="honors-sub">其中，<span class="nb">國立臺北商業大學財務金融系</span>　<span class="nb">吳威震副教授</span>受橘子蘋果委託，參與本課程的內容開發。</p>
         <div class="honors-people">
           <div class="honor">
             <img src="./assets/endorse-jen.jpg" width="264" height="264" loading="lazy" decoding="async"
@@ -1619,10 +1633,8 @@
             <b>吳威震</b><span>副教授<br>國立臺北商業大學<br>財務金融系</span>
           </div>
         </div>
-        <div class="honors-foot">
-          <p class="honors-src">產學合作專案「蘋果芽青少年金融課程（第一階段）」已於 2025 年結案，委託單位為橘子蘋果程式學苑的法人蘋果芽數位科技股份有限公司，計畫編號 1140113173642，公開登載於 <a href="https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw" rel="noopener">臺北商業大學財務金融系網站</a>——任何人都查得到。</p>
-          <a class="honors-jump" href="#endorsement">看四位怎麼說 ↓</a>
-        </div>
+        <p class="honors-act"><a class="honors-jump" href="#endorsement">看四位怎麼說 ↓</a></p>
+        <p class="honors-src">產學合作專案「蘋果芽青少年金融課程（第一階段）」已於 2025 年結案，委託單位為橘子蘋果程式學苑的法人<span class="nb">蘋果芽數位科技股份有限公司</span>，<span class="nb">計畫編號 1140113173642</span>，公開登載於 <a class="nb" href="https://fin.ntub.edu.tw/p/412-1037-5187.php?Lang=zh-tw" rel="noopener">臺北商業大學財務金融系網站</a>——任何人都查得到。</p>
       </aside>
     </div>
 
